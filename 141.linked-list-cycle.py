@@ -75,7 +75,7 @@
 #         self.next = None
 
 class Solution:
-    # Two Pointer
+    # Two Pointers
     def hasCycle(self, head: ListNode) -> bool:
         fast = head
         slow = head
