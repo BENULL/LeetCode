@@ -83,21 +83,34 @@ class Solution:
     #     return [] if not root else self.postorderTraversal(root.left)+self.postorderTraversal(root.right)+[root.val]
 
     # iterative
-    def postorderTraversal(self, root: TreeNode) -> List[int]:
-        res, stack = [],[]
+    # def postorderTraversal(self, root: TreeNode) -> List[int]:
+    #     res, stack = [],[]
+    #     while stack or root:
+    #         if root:
+    #             stack.append((root,False))
+    #             root = root.left
+    #         else:
+    #             root,visited = stack[-1]
+    #             if visited:
+    #                 stack.pop()
+    #                 res.append(root.val)
+    #                 root = None
+    #             else:
+    #                 stack[-1]= (root,True)
+    #                 root = root.right
+    #     return res
+
+    # Post Order Traverse use per order reverse
+    def postorderTraversal(self, root: TreeNode) -> List[int]: 
+        res,stack = [],[]
         while stack or root:
             if root:
-                stack.append((root,False))
-                root = root.left
+                res.insert(0,root.val)
+                stack.append(root)
+                root = root.right
             else:
-                root,visited = stack[-1]
-                if visited:
-                    stack.pop()
-                    res.append(root.val)
-                    root = None
-                else:
-                    stack[-1]= (root,True)
-                    root = root.right
+                root = stack.pop()
+                root = root.left
         return res
         
 # @lc code=end
