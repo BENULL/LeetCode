@@ -43,9 +43,14 @@ class Solution:
     # binary search with range
     def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
         n = len(matrix)
-        l1, r1 = 0, n-1
-        while l1<=r1:
-
+        lo, hi =matrix[0][0], matrix[-1][-1]
+        while lo<=hi:
+            mid = lo + (hi-lo)//2
+            if sum(bisect.bisect_right(row, mid) for row in matrix) < k:
+                lo = mid + 1
+            else:
+                hi = mid - 1
+        return lo
 
     # def kthSmallest(self, matrix: List[List[int]], k: int) -> int:
     #     return sorted(itertools.chain.from_iterable(matrix))[k-1]
