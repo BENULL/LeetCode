@@ -47,32 +47,52 @@
 
 # @lc code=start
 class Solution:
-    def trap(self, height: List[int]) -> int:
-        if not height:
-            return 0
-        index = height.index(max(height))
-        return self.helper(height[:index+1])+self.helper(height[:index-len(height)-1:-1])
+    # def trap(self, height: List[int]) -> int:
+    #     if not height:
+    #         return 0
+    #     index = height.index(max(height))
+    #     return self.helper(height[:index+1])+self.helper(height[:index-len(height)-1:-1])
 
         
-    def helper(self,height):
-        res = 0
-        if len(height)<3:
-            return res
-        i = 0
-        while i < len(height)-1:
-            if height[i]>0:
-                firstMaxIndex = i + 1
-                while firstMaxIndex <len(height) and height[firstMaxIndex]<height[i]:
-                    firstMaxIndex += 1
-                if firstMaxIndex <len(height):
-                    res += (min(height[i],height[firstMaxIndex])*(firstMaxIndex-i-1))-sum(height[i+1:firstMaxIndex])
-                    i = firstMaxIndex
-                else:
-                    i += 1
-            else:
-                i += 1
-        return res
+    # def helper(self,height):
+    #     res = 0
+    #     if len(height)<3:
+    #         return res
+    #     i = 0
+    #     while i < len(height)-1:
+    #         if height[i]>0:
+    #             firstMaxIndex = i + 1
+    #             while firstMaxIndex <len(height) and height[firstMaxIndex]<height[i]:
+    #                 firstMaxIndex += 1
+    #             if firstMaxIndex <len(height):
+    #                 res += (min(height[i],height[firstMaxIndex])*(firstMaxIndex-i-1))-sum(height[i+1:firstMaxIndex])
+    #                 i = firstMaxIndex
+    #             else:
+    #                 i += 1
+    #         else:
+    #             i += 1
+    #     return res
 
+
+    # two pointer
+    def trap(self, height: List[int]) -> int:
+        left, right = 0, len(height)-1
+        res = 0
+        leftMax, rightMax = 0, 0 
+        while left < right:
+            if height[left]<height[right]:
+                if height[left]>=leftMax:
+                    leftMax = height[left]
+                else:
+                    res += leftMax-height[left]
+                left += 1
+            else:
+                if height[right]>=rightMax:
+                    rightMax = height[right]
+                else:
+                    res += rightMax-height[right]
+                right -= 1
+        return res
         
 # @lc code=end
 
