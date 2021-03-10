@@ -68,7 +68,7 @@ class Solution:
             return sum([math.ceil(p/k) for p in piles]) <= h
 
         lo, hi = 1, max(piles)+1
-        while lo < hi:
+        while lo <hi:
             mid  = lo + (hi - lo) // 2
             if not possible(mid):
                 lo = mid + 1
