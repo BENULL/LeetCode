@@ -75,49 +75,94 @@
 # @lc code=start
 class MyStack:
 
+    # def __init__(self):
+    #     """
+    #     Initialize your data structure here.
+    #     """
+    #     self.q1 = []
+    #     self.q2 = []    
+
+    # def push(self, x: int) -> None:
+    #     """
+    #     Push element x onto stack.
+    #     """
+    #     q = self.q1 or self.q2
+    #     q.append(x)
+
+    # def pop(self) -> int:
+    #     """
+    #     Removes the element on top of the stack and returns that element.
+    #     """
+    #     eq = self.q1 and self.q2
+    #     hq = self.q1 or self.q2
+    #     while len(hq)>1:
+    #         eq.append(hq.pop(0))
+    #     return hq.pop(0)
+
+    # def top(self) -> int:
+    #     """
+    #     Get the top element.
+    #     """
+    #     # if not self.empty():
+    #     eq = self.q1 and self.q2
+    #     hq = self.q1 or self.q2
+    #     while len(hq)>1:
+    #         eq.append(hq.pop(0))
+    #     res = hq[0]
+    #     eq.append(hq.pop(0))
+    #     return res
+        
+
+    # def empty(self) -> bool:
+    #     """
+    #     Returns whether the stack is empty.
+    #     """
+    #     return not self.q1 and not self.q2
+
     def __init__(self):
         """
         Initialize your data structure here.
         """
-        self.q1 = []
-        self.q2 = []    
+        self.queue1 = []
+        self.queue2 = []
+        self.topval = 0
+        
 
     def push(self, x: int) -> None:
         """
         Push element x onto stack.
         """
-        q = self.q1 or self.q2
-        q.append(x)
+        self.queue1.append(x)
+        self.topval = x
+        
+        
+        
 
     def pop(self) -> int:
         """
         Removes the element on top of the stack and returns that element.
         """
-        eq = self.q1 and self.q2
-        hq = self.q1 or self.q2
-        while len(hq)>1:
-            eq.append(hq.pop(0))
-        return hq.pop(0)
+        while len(self.queue1) > 1:
+            self.topval = self.queue1.pop(0)
+            self.queue2.append(self.topval)
+        
+        ele = self.queue1.pop(0)
+        self.queue1 = self.queue2
+        self.queue2 = []
+        return ele
+        
+        
 
     def top(self) -> int:
-        """
-        Get the top element.
-        """
-        # if not self.empty():
-        eq = self.q1 and self.q2
-        hq = self.q1 or self.q2
-        while len(hq)>1:
-            eq.append(hq.pop(0))
-        res = hq[0]
-        eq.append(hq.pop(0))
-        return res
+        return self.topval
         
 
     def empty(self) -> bool:
         """
         Returns whether the stack is empty.
         """
-        return not self.q1 and not self.q2
+        return True if len(self.queue1) == 0 else False
+        
         
 
 
