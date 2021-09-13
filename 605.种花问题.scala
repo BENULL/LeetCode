@@ -61,7 +61,7 @@ object Solution {
         // res<=0
         var i = 0 
         var res = n
-        while(i<flowerbed.length && res>0){
+        while(i < flowerbed.length && res > 0){
             if (flowerbed(i) == 1) {
                 i += 2
             }else if(i == flowerbed.length - 1 || flowerbed(i + 1) == 0){

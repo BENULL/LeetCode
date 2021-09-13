@@ -48,6 +48,9 @@
 # @lc code=start
 class Solution:
     def partitionLabels(self, S: str) -> List[int]:
+        # greedy 
+        # 1. statistics the last occurrence index 
+
         ends = {c:i for i,c in enumerate(S)}
         curr,out= 0,[0]
         while curr <len(S):
