@@ -95,26 +95,68 @@ class Solution:
         dp + binary search
         """
 
-        dp = [[i for j in range(k+1)] for i in range(n+1)]
+        # TLE
 
-        for j in range(k+1):
-            dp[0][j] = 0
+        # dp = [[i for j in range(k+1)] for i in range(n+1)]
 
-        dp[1][0] = 0
-        for j in range(k+1):
-            dp[1][j] = 1
+        # dp[1][0] = 0
+        # for j in range(k+1):
+        #     dp[0][j] = 0
+        #     dp[1][j] = 1
 
-        for i in range(n+1):
-            dp[i][0] = 0
-            dp[i][1] = i
+        # for i in range(n+1):
+        #     dp[i][0] = 0
+        #     dp[i][1] = i
 
-        for i in range(2, n+1):
-            # res = float('inf')
-            for j in range(2, k+1):
-                for l in range(1, i+1):
-                    dp[i][j] = min(dp[i][j], max(dp[l - 1][j - 1], dp[i - l][j]) + 1)
+        # for i in range(2, n+1):
+        #     # res = float('inf')
+        #     for j in range(2, k+1):
+        #         # 在区间 [1, i] 里确定一个最优值
+        #         left, right = 1, i
+        #         while left<right:
+        #             mid = left + (right-left+1)//2
+        #             breakCount = dp[mid - 1][j - 1]
+        #             notBreakCount = dp[i - mid][j]
+        #             if breakCount > notBreakCount:
+        #                 right = mid - 1
+        #             else:
+        #                 left = mid
+        #         dp[i][j] = max(dp[left - 1][j - 1], dp[i - left][j]) + 1
 
-        return dp[n][k]
+
+        # return dp[n][k]
+
+
+        # AC
+
+        memo = {}
+        def dp(k, n):
+            if (k, n) not in memo:
+                if n == 0:
+                    ans = 0
+                elif k == 1:
+                    ans = n
+                else:
+                    lo, hi = 1, n
+                    # keep a gap of 2 x values to manually check later
+                    while lo + 1 < hi:
+                        x = (lo + hi) // 2
+                        t1 = dp(k - 1, x - 1)
+                        t2 = dp(k, n - x)
+
+                        if t1 < t2:
+                            lo = x
+                        elif t1 > t2:
+                            hi = x
+                        else:
+                            lo = hi = x
+
+                    ans = 1 + min(max(dp(k - 1, x - 1), dp(k, n - x))
+                                  for x in (lo, hi))
+
+                memo[k, n] = ans
+            return memo[k, n]
+        return dp(k, n)
 
 
 
