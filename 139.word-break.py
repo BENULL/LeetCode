@@ -55,15 +55,51 @@
 
 # @lc code=start
 class Solution:
-    # dp
+    
     def wordBreak(self, s: str, wordDict: List[str]) -> bool:
-        dp = [False]*(len(s)+1) 
-        dp[0] = True
-        for i in range(len(s)):
-            for j in range(i,len(s)):
-                if dp[i] and s[i:j+1] in wordDict:
-                    dp[j+1] = True
-        return dp[-1]
+        """dp
+        """
+        # dp = [False]*(len(s)+1) 
+        # dp[0] = True
+        # for i in range(len(s)):
+        #     for j in range(i,len(s)):
+        #         if dp[i] and s[i:j+1] in wordDict:
+        #             dp[j+1] = True
+        # return dp[-1]
+
+        """dfs
+        """
+        # @functools.lru_cache(None)
+        # def dfs(start):
+        #     if start == len(s):
+        #         return True
+        #     for i in range(start+1, len(s)+1):
+        #         if s[start:i] in wordDict and dfs(i):
+        #             return True
+        #     return False
+        # return dfs(0)
+
+        """bfs
+        """
+        queue = [0]
+        visited = [False]*len(s)
+        while queue:
+            start = queue.pop(-1)
+            if visited[start]:
+                continue
+            visited[start] = True
+            for i in range(start+1, len(s)+1):
+                if s[start:i] in wordDict:
+                    if i<len(s):
+                        queue.append(i)
+                    else:
+                        return True
+        return False
+
+
+
+
+    
         
 # @lc code=end
 
