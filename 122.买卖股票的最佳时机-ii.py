@@ -80,6 +80,7 @@ class Solution:
         # return ans
 
         # dp
+        # k 交易次数无限
         # 1, 0  hold stock, no hold
         n = len(prices)
         dp = [[0] * 2 for _ in range(n)]
