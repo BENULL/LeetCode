@@ -71,8 +71,9 @@ class Solution:
         dp = [False]*(target+1)
         dp[0] = True
         for num in nums:
-            for i in range(target,num-1,-1):
-                if target>=i:
+            if target>=num:
+                for i in range(target,num-1,-1):
+                # if target>=i:
                     dp[i]= dp[i] or dp[i-num]
         return dp[target]
         
