@@ -49,24 +49,45 @@
 
 # @lc code=start
 class Solution:
-    # dfs + memo
+    
     def findTargetSumWays(self, nums: List[int], S: int) -> int:
-       
-        def findTarget(i,s):
-            if (i,s) not in cache:
-                r = 0
-                if i == len(nums):
-                    if s == 0:
-                        r = 1
-                else:
-                    r = findTarget(i+1,s-nums[i])+findTarget(i+1,s+nums[i])
-                cache[(i,s)] = r
+    #    # dfs + memo
+    #     def findTarget(i,s):
+    #         if (i,s) not in cache:
+    #             r = 0
+    #             if i == len(nums):
+    #                 if s == 0:
+    #                     r = 1
+    #             else:
+    #                 r = findTarget(i+1,s-nums[i])+findTarget(i+1,s+nums[i])
+    #             cache[(i,s)] = r
             
-            return cache[(i,s)]
+    #         return cache[(i,s)]
 
             
-        cache = {}
-        return findTarget(0,S)
+    #     cache = {}
+    #     return findTarget(0,S)
+
+
+        # dp 背包方案数
+        n = len(nums)
+        _sum = sum(nums)
+        if abs(S) > _sum:
+            return 0
+        dp = [[0]*(2*_sum+1) for _ in range(n+1)]
+        # dp[i][j] 表示 使用i个num 和为j 的方案数
+        # dp[i][j] = dp[i-1][j-nums[i-1]] + dp[i-1][j+nums[i-1]]
+
+        # base case
+        dp[0][0+_sum] = 1
+
+        for i in range(1,n+1):
+            for j in range(-_sum, _sum+1):
+                if (j - nums[i-1]) + _sum >= 0:
+                    dp[i][j + _sum] += dp[i - 1][(j - nums[i-1]) + _sum]
+                if (j + nums[i-1]) + _sum <= 2 * _sum:
+                    dp[i][j + _sum] += dp[i - 1][(j + nums[i-1]) + _sum]
+        return dp[n][_sum+S]
         
 
         
