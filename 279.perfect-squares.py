@@ -35,15 +35,23 @@
 class Solution:
     # dp
     def numSquares(self, n: int) -> int:
-        dp = [0]
-        while len(dp)<=n:
-            m = len(dp)
-            ans = sys.maxsize
-            for i in range(1,int(math.sqrt(m))+1):
-                if i*i <= m:
-                    ans = min(ans,dp[m-i*i]+1)
-            dp.append(ans)
-        return dp[n]
+        # dp = [0]
+        # while len(dp)<=n:
+        #     m = len(dp)
+        #     ans = sys.maxsize
+        #     for i in range(1,int(math.sqrt(m))+1):
+        #         if i*i <= m:
+        #             ans = min(ans,dp[m-i*i]+1)
+        #     dp.append(ans)
+        # return dp[n]
+
+    # math 四平方和定理
+
+        # dp 完全背包
+        # https://leetcode-cn.com/problems/perfect-squares/solution/gong-shui-san-xie-xiang-jie-wan-quan-bei-nqes/
+
+
+
         
 # @lc code=end
 
