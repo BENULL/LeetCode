@@ -97,23 +97,57 @@ class Solution:
 
 
         # bfs
-        if amount==0: return 0
-        coins.sort()
-        visited = {amount}
-        queue = [amount]
-        step = 1
-        while queue:
-            for _ in range(len(queue)):
-                money = queue.pop(0)
-                for coin in coins:
-                    next = money - coin
-                    if next == 0: return step
-                    if next < 0: break
-                    if next not in visited:
-                        queue.append(next)
-                        visited.add(next)
-            step += 1
-        return -1 
+
+        # if amount==0: return 0
+        # coins.sort()
+        # visited = {amount}
+        # queue = [amount]
+        # step = 1
+        # while queue:
+        #     for _ in range(len(queue)):
+        #         money = queue.pop(0)
+        #         for coin in coins:
+        #             next = money - coin
+        #             if next == 0: return step
+        #             if next < 0: break
+        #             if next not in visited:
+        #                 queue.append(next)
+        #                 visited.add(next)
+        #     step += 1
+        # return -1 
+
+
+        # 朴素完全背包 TLE
+        # n = len(coins)
+        # dp = [[0]*(amount+1) for _ in range(n+1)]
+        # # base case
+        # for i in range(1,amount+1):
+        #     dp[0][i] = float('inf')
+        
+        # for i in range(1, n+1):
+        #     coin  = coins[i-1]
+        #     for j in range(amount+1):
+        #         dp[i][j] = dp[i-1][j]
+        #         for k in range(j+1):
+        #             if k*coin>j:
+        #                 break
+        #             # if dp[i-1][j-k*coin]!=float('inf'):
+        #             dp[i][j] = min(dp[i][j], dp[i-1][j-k*coin] + k)
+        # return -1 if dp[n][amount] == float('inf') else dp[n][amount]
+
+        # 一维背包优化
+        n = len(coins)
+        dp = [float('inf')]*(amount+1)
+        dp[0] = 0
+        for i in range(1, n+1):
+            coin  = coins[i-1]
+            for j in range(coin, amount+1):
+                dp[j] = min(dp[j],dp[j-coin]+1)
+        return -1 if dp[amount] == float('inf') else dp[amount]
+
+
+
+
 
 # @lc code=end
 
