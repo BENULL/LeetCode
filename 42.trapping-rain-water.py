@@ -46,7 +46,11 @@
 #
 
 # @lc code=start
+from pip import main
+
+
 class Solution:
+    # brute force
     # def trap(self, height: List[int]) -> int:
     #     if not height:
     #         return 0
@@ -75,24 +79,72 @@ class Solution:
 
 
     # two pointer
-    def trap(self, height: List[int]) -> int:
-        left, right = 0, len(height)-1
+    """
+    使用 height[left]\textit{height}[\textit{left}]height[left] 和 height[right]\textit{height}[\textit{right}]height[right] 的值更新 leftMax\textit{leftMax}leftMax 和 rightMax\textit{rightMax}rightMax 的值；
+
+如果 height[left]<height[right]\textit{height}[\textit{left}]<\textit{height}[\textit{right}]height[left]<height[right]，则必有 leftMax<rightMax\textit{leftMax}<\textit{rightMax}leftMax<rightMax，下标 left\textit{left}left 处能接的雨水量等于 leftMax−height[left]\textit{leftMax}-\textit{height}[\textit{left}]leftMax−height[left]，将下标 left\textit{left}left 处能接的雨水量加到能接的雨水总量，然后将 left\textit{left}left 加 111（即向右移动一位）；
+
+如果 height[left]≥height[right]\textit{height}[\textit{left}] \ge \textit{height}[\textit{right}]height[left]≥height[right]，则必有 leftMax≥rightMax\textit{leftMax} \ge \textit{rightMax}leftMax≥rightMax，下标 right\textit{right}right 处能接的雨水量等于 rightMax−height[right]\textit{rightMax}-\textit{height}[\textit{right}]rightMax−height[right]，将下标 right\textit{right}right 处能接的雨水量加到能接的雨水总量，然后将 right\textit{right}right 减 111（即向左移动一位）。
+    """
+    def trap(self, height) -> int:
+        # left, right = 0, len(height)-1
+        # ans = 0
+        # left_max, right_max = 0, 0 
+        # while left<=right:
+        #     if left_max<right_max:
+        #         ans+=max(0,left_max-height[left])
+        #         left_max=max(left_max,height[left])
+        #         left+=1
+        #     else:
+        #         ans+=max(0,right_max-height[right])
+        #         right_max=max(right_max,height[right])
+        #         right-=1
+        # return ans
+    
+        # dp
+        # 预处理 
+        # 得到leftMax 和 rightMax数组
+        # min(leftMax[i],rightMax[i])−height[i]）
+
+
+        # if not height:
+        #     return 0
+            
+        # n = len(height)
+        # leftMax = [height[0]] + [0] * (n - 1)
+        # for i in range(1, n):
+        #     leftMax[i] = max(leftMax[i - 1], height[i])
+
+        # rightMax = [0] * (n - 1) + [height[n - 1]]
+        # for i in range(n - 2, -1, -1):
+        #     rightMax[i] = max(rightMax[i + 1], height[i])
+
+        # ans = sum(min(leftMax[i], rightMax[i]) - height[i] for i in range(n))
+        # return ans
+
+
+        # 单调栈 计算行雨水量 上面的计算列的雨水量
+        stack = []
         res = 0
-        leftMax, rightMax = 0, 0 
-        while left < right:
-            if height[left]<height[right]:
-                if height[left]>=leftMax:
-                    leftMax = height[left]
-                else:
-                    res += leftMax-height[left]
-                left += 1
-            else:
-                if height[right]>=rightMax:
-                    rightMax = height[right]
-                else:
-                    res += rightMax-height[right]
-                right -= 1
+        # n = len(height)
+        for i, h in enumerate(height):
+            while stack and h > height[stack[-1]]:
+                top = stack.pop()
+                if not stack:
+                    break
+                left = stack[-1]
+                curWidth = i-left-1
+                curHeight = min(height[left], h)-height[top]
+                res += curWidth*curHeight
+            stack.append(i)
         return res
+
+if __name__ == '__main__':
+    s = Solution()
+    s.trap([0,1,0,2,1,0,1,3,2,1,2,1])
+
+
+
         
 # @lc code=end
 
