@@ -46,18 +46,57 @@
 #
 
 # @lc code=start
+
+
 class Solution:
     # similiar with 85.
     def largestRectangleArea(self, heights: List[int]) -> int:
-        heights.append(0)
-        stack, size = [], 0
-        for i in range(len(heights)):
-            while stack and heights[stack[-1]]>heights[i]:
-                h = heights[stack.pop()]
-                w = i if not stack else i-stack[-1]-1
-                size = max(size,h*w)
+        # 从枚举高或宽入手，枚举高一重循环，枚举宽二重循环
+
+        # 单调栈
+        # 找出i左右第一个小于heights[i]的位置
+        n = len(heights)
+        left, right = [-1] * n, [n] * n
+
+        # left stack
+        stack = []
+        for i in range(n):
+            while stack and heights[stack[-1]]>=heights[i]:
+                stack.pop()
+            if stack:
+                left[i] = stack[-1]
             stack.append(i)
-        return size    
+        
+        # right stack
+        stack = []
+        for i in range(n-1,-1,-1):
+            while stack and heights[stack[-1]]>=heights[i]:
+                stack.pop()
+            if stack:
+                right[i] = stack[-1]
+            stack.append(i)
+        
+        res = 0
+        for i in range(n):
+            left_min_idx = left[i]
+            right_min_idx = right[i]
+            res = max(res, (right_min_idx-left_min_idx-1)*heights[i])
+        return res 
+
+
+
+
+
+        # 单调栈优化
+        # heights.append(0)
+        # stack, size = [], 0
+        # for i in range(len(heights)):
+        #     while stack and heights[stack[-1]]>heights[i]:
+        #         h = heights[stack.pop()]
+        #         w = i if not stack else i-stack[-1]-1
+        #         size = max(size,h*w)
+        #     stack.append(i)
+        # return size    
         
 # @lc code=end
 
