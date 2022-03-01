@@ -57,7 +57,35 @@
 #
 
 # @lc code=start
+
+
+
 class Solution:
     def shortestSubarray(self, nums: List[int], k: int) -> int:
+        # https://leetcode-cn.com/problems/shortest-subarray-with-sum-at-least-k/solution/python-dan-diao-dui-lie-bi-guan-fang-ti-cywko/
+
+        # 双端队列
+        # 任意给定值，能找到前缀和小于该值的所有头
+        # 任意给定值，能找到前缀和不小于该值的所有头
+
+        # prefix sum
+        p = [0]
+        for n in nums:
+            p.append(p[-1]+n)
+        # main process
+        q = collections.deque()
+
+        res = float('inf')
+        for i,n in enumerate(p):
+            # could be tail of any possible head
+            while len(q) > 0 and n - p[q[0]] >= k:
+                res = min(res, i - q[0])
+                q.popleft()
+            
+            while len(q) > 0 and n <= p[q[-1]]:
+                q.pop()
+            q.append(i)
+        return res if res != float('inf') else -1
+
 # @lc code=end
 
