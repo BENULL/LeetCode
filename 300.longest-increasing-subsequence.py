@@ -40,15 +40,35 @@
 class Solution:
     # dp or binary search
     def lengthOfLIS(self, nums: List[int]) -> int:
+        # if not nums:
+        #     return 0
+        # n = len(nums)
+        # dp = [1] * n
+        # for i in range(1,n):
+        #     for j in range(i):
+        #         if nums[j]<nums[i]:
+        #             dp[i] = max(dp[i],1+dp[j])
+        # return max(dp)
+
+        # 打印路径
         if not nums:
             return 0
         n = len(nums)
         dp = [1] * n
+        path = [-1] * n
         for i in range(1,n):
             for j in range(i):
-                if nums[j]<nums[i]:
-                    dp[i] = max(dp[i],1+dp[j])
-        return max(dp)
+                if nums[j]<nums[i] and 1+dp[j]>dp[i]:
+                    dp[i] = 1 + dp[j]
+                    path[i] = j
+        idx = dp.index(max(dp))
+        res = []
+        while idx!=-1:
+            res.append(nums[idx])
+            idx = path[idx]
+        return reversed(res)
+
+        
         
 # @lc code=end
 
