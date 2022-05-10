@@ -20,5 +20,20 @@ class Solution:
                 dp[i] = dp[i-1]
         return dp[-1]
 
+        # dfs
+        num =str(num)
+        n = len(num)
+        @functools.lru_cache
+        def dfs(index):
+            if index >= n-1:
+                return 1
+            s = num[index:index+2]
+            if '10'<=s<='25':
+                return dfs(index+1) + dfs(index+2) 
+            else:
+                return  dfs(index+1)
+
+        return dfs(0)
+
 
 
